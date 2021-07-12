@@ -19,7 +19,7 @@ RSpec.describe Ship do
     expect(@cruiser.sunk?).to eq(false)
   end
 
-  it 'reduces health with hit' do
+  it 'returns #sunk? after #hit' do
     @cruiser.hit
 
     expect(@cruiser.health).to eq(2)
@@ -27,13 +27,10 @@ RSpec.describe Ship do
     @cruiser.hit
 
     expect(@cruiser.health).to eq(1)
+    expect(@cruiser.sunk?).to eq(false)
+
+    @cruiser.hit
+
+    expect(@cruiser.sunk?).to eq(true)
   end
 end
-
-  # pry(main)> cruiser.sunk?
-  # #=> false
-  #
-  # pry(main)> cruiser.hit
-  #
-  # pry(main)> cruiser.sunk?
-  # #=> true
