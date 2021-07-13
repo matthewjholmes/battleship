@@ -7,31 +7,30 @@ RSpec.describe Board do
     @board = Board.new
     @cruiser = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
-    @board = Board.new
   end
 
   it 'returns call classes' do
     expect = {
-     "A1" => Cell.new,
-     "A2" => Cell.new,
-     "A3" => Cell.new,
-     "A4" => Cell.new,
-     "B1" => Cell.new,
-     "B2" => Cell.new,
-     "B3" => Cell.new,
-     "B4" => Cell.new,
-     "C1" => Cell.new,
-     "C2" => Cell.new,
-     "C3" => Cell.new,
-     "C4" => Cell.new,
-     "D1" => Cell.new,
-     "D2" => Cell.new,
-     "D3" => Cell.new,
-     "D4" => Cell.new
+     "A1" => Cell.new(:key),
+     "A2" => Cell.new(:key),
+     "A3" => Cell.new(:key),
+     "A4" => Cell.new(:key),
+     "B1" => Cell.new(:key),
+     "B2" => Cell.new(:key),
+     "B3" => Cell.new(:key),
+     "B4" => Cell.new(:key),
+     "C1" => Cell.new(:key),
+     "C2" => Cell.new(:key),
+     "C3" => Cell.new(:key),
+     "C4" => Cell.new(:key),
+     "D1" => Cell.new(:key),
+     "D2" => Cell.new(:key),
+     "D3" => Cell.new(:key),
+     "D4" => Cell.new(:key)
     }
-    expect(@board.cells.values).to be_a(Cell)
-    expect(@board.cells).to be_a(Hash)
-    expect(@board.cells).to eq(expect)
+    expect(expect.values.first).to be_a(Cell)
+    expect(expect).to be_a(Hash)
+    expect(@board.cells.count).to eq(16)
   end
 
   xit 'returns if corrdinates are on board' do
