@@ -6,10 +6,10 @@ class Board
   end
 
   def cell_generator
-    y_axis  = ("A".."D").to_a
-    x_axis  = ("1".."4").to_a
+    y_axis      = ("A".."D").to_a
+    x_axis      = ("1".."4").to_a
     coordinates = []
-    cells   = {}
+    cells       = {}
 
     y_axis.each do |letter|
       x_axis.each do |number|
