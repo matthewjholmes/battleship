@@ -23,12 +23,21 @@ class Board
   end
 
   def valid_coordinate?(cell)
-    @cells[cell].coordinate == cell
+    @cells.has_key?(cell)
   end
 
   def valid_placement?(ship, placements)
     ship.length == placements.length
-    #Random thoughts: an OR statement that evaluates all the same .ord number on one side, and consecutive numbers after .split("A"||"B"||etc.) on the other
-    
+    groups = []
+    @cells.keys.each_cons(ship.length) do |group|
+      groups << group
+    end
+    groups.any?(placements)
+    require "pry"; binding.pry
   end
 end
+
+#Random thoughts: an OR statement that evaluates all the same .ord number on one side, and consecutive numbers after .split("A"||"B"||etc.) on the other
+#Another idea: make an array of arrays of each row and column, and see if placement matches part of any item (possibly with each_cons). Block (any?) checks to see if coordinate match any of the arrays.
+# i = [['a','b','c','d'],['e','f','g','h']]
+# i.any? { |s| s.include?(['b','c'])}
