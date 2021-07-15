@@ -21,4 +21,8 @@ class Board
     end
     cells
   end
+
+  def valid_coordinate?(cell)
+    @cells[cell].coordinate == cell
+  end
 end

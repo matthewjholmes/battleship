@@ -14,7 +14,7 @@ RSpec.describe Board do
     expect(@board.cells).to be_a(Hash)
   end
 
-  it 'returns if corrdinates are on board' do
+  xit 'returns if corrdinates are on board' do
     expect(@board.valid_coordinate?("A1")).to eq(true)
     expect(@board.valid_coordinate?("D4")).to eq(true)
     expect(@board.valid_coordinate?("A5")).to eq(false)
