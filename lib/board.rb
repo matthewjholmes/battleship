@@ -25,4 +25,10 @@ class Board
   def valid_coordinate?(cell)
     @cells[cell].coordinate == cell
   end
+
+  def valid_placement?(ship, placements)
+    ship.length == placements.length
+    #Random thoughts: an OR statement that evaluates all the same .ord number on one side, and consecutive numbers after .split("A"||"B"||etc.) on the other
+    
+  end
 end
