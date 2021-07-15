@@ -10,30 +10,11 @@ RSpec.describe Board do
   end
 
   it 'returns call classes' do
-    expect = {
-     "A1" => Cell.new(:key),
-     "A2" => Cell.new(:key),
-     "A3" => Cell.new(:key),
-     "A4" => Cell.new(:key),
-     "B1" => Cell.new(:key),
-     "B2" => Cell.new(:key),
-     "B3" => Cell.new(:key),
-     "B4" => Cell.new(:key),
-     "C1" => Cell.new(:key),
-     "C2" => Cell.new(:key),
-     "C3" => Cell.new(:key),
-     "C4" => Cell.new(:key),
-     "D1" => Cell.new(:key),
-     "D2" => Cell.new(:key),
-     "D3" => Cell.new(:key),
-     "D4" => Cell.new(:key)
-    }
-    expect(expect.values.first).to be_a(Cell)
-    expect(expect).to be_a(Hash)
-    expect(@board.cells.count).to eq(16)
+    expect(@board.cells["A1"]).to be_a(Cell)
+    expect(@board.cells).to be_a(Hash)
   end
 
-  xit 'returns if corrdinates are on board' do
+  it 'returns if corrdinates are on board' do
     expect(@board.valid_coordinate?("A1")).to eq(true)
     expect(@board.valid_coordinate?("D4")).to eq(true)
     expect(@board.valid_coordinate?("A5")).to eq(false)
