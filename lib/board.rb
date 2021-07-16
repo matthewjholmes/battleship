@@ -1,8 +1,10 @@
 class Board
-  attr_reader :cells
+  attr_reader :cells,
+              :taken_cells
 
   def initialize
     @cells = cell_generator
+    @taken_cells = []
   end
 
   def cell_generator
@@ -45,6 +47,19 @@ class Board
       groups << group
     end
     groups.any?(placements) || place_nums.all?(place_nums[0]) && consecutive_check = ords.each_cons(2).all? {|a, b| b == a + 1 }
+  end
+
+  def place(ship, placements)
+    @taken_cells << placements
+    placements.each do |cell|
+      @cells[cell].place_ship(ship)
+    end
+  end
+
+  #
+
+  def duplicates?
+    @taken_cells.flatten.length != @taken_cells.uniq.flatten.length
   end
 end
 
