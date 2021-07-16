@@ -29,7 +29,8 @@ class Board
   end
 
   def valid_placement?(ship, placements)
-    ship.length == placements.length
+    return false unless ship.length == placements.length
+    return false unless !duplicates?
     place_split = placements.map do |placement|
       placement.split("")
     end
@@ -56,10 +57,8 @@ class Board
     end
   end
 
-  #
-
   def duplicates?
-    @taken_cells.flatten.length != @taken_cells.uniq.flatten.length
+    @taken_cells.flatten.length != @taken_cells.flatten.uniq.length
   end
 end
 
