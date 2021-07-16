@@ -48,6 +48,7 @@ class Board
   end
 end
 
+# nothing changed
 # Random thoughts: an OR statement that evaluates all the same .ord number on one side, and consecutive numbers after .split("A"||"B"||etc.) on the other
 #Another idea: make an array of arrays of each row and column, and see if placement matches part of any item (possibly with each_cons). Block (any?) checks to see if coordinate match any of the arrays.
 # i = [['a','b','c','d'],['e','f','g','h']]
