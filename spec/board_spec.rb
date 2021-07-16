@@ -14,7 +14,7 @@ RSpec.describe Board do
     expect(@board.cells).to be_a(Hash)
   end
 
-  xit 'returns if coordinates are on board' do
+  it 'returns if coordinates are on board' do
     expect(@board.valid_coordinate?("A1")).to eq(true)
     expect(@board.valid_coordinate?("D4")).to eq(true)
     expect(@board.valid_coordinate?("A5")).to eq(false)
@@ -41,8 +41,8 @@ RSpec.describe Board do
 
   it 'returns valid placements' do
     expect(@board.valid_placement?(@submarine, ["A1", "B1"])).to eq(true)
-
     expect(@board.valid_placement?(@cruiser, ["B1", "C1", "D1"])).to eq(true)
-
+    expect(@board.valid_placement?(@cruiser, ["A1", "C1", "D1"])).to eq(false)
+    expect(@board.valid_placement?(@submarine, ["A2", "B2"])).to eq(true)
   end
 end
