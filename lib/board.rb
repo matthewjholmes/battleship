@@ -60,6 +60,16 @@ class Board
   def duplicates?
     @taken_cells.flatten.length != @taken_cells.flatten.uniq.length
   end
+
+  def render
+    arr = []
+    board = @cells.map do |cell|
+      cell[1].render(true)
+    end
+    board.each do |cell|
+      require "pry"; binding.pry
+    end
+  end
 end
 
 # nothing changed
