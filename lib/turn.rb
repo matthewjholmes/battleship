@@ -6,6 +6,7 @@ class Turn
 
   def initialize
     @ships = []
+    @board = Board.new
   end
 
   def add_ship(ship)
@@ -36,12 +37,12 @@ class Turn
   end
 
   def placement_generator
+    require "pry"; binding.pry
     p = false
     e = []
     @ships.each do |ship|
       while p == false
         e = @board.cells.keys.sample(ship.length)
-        p = @board.valid_placement?(@cruiser, e)
         p
       end
       @board.place(ship, e)
