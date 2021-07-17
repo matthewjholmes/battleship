@@ -61,14 +61,25 @@ class Board
     @taken_cells.flatten.length != @taken_cells.flatten.uniq.length
   end
 
-  def render
+  def render(render = false)
+    y_axis = ("A".."D").to_a
     arr = []
-    board = @cells.map do |cell|
+    sentence = @cells.map do |cell|
       cell[1].render(true)
     end
-    board.each do |cell|
-      require "pry"; binding.pry
+    lines = sentence.join.scan(/.{4}/)
+    lines.unshift(" 1234")
+    lines_spaces = lines.each do |line|
+      line.each_char do |line|
+        line.insert(-1, " ")
+      end
+    end 
+    require "pry"; binding.pry
+    board = lines.each do |line|
+       line.concat("\n")
+
     end
+    board.zip(y_axis).join
   end
 end
 
