@@ -2,6 +2,7 @@ require './lib/board'
 require './lib/ship'
 require './lib/cell'
 require './lib/turn'
+require 'pry'
 
 RSpec.describe Turn do
   before(:each) do
@@ -38,7 +39,7 @@ RSpec.describe Turn do
 
     it 'places ships' do
       # @turn.placement_generator(@cruiser, ["A1", "A2", "A3"])
-require "pry"; binding.pry
+      @turn.placement_generator binding.pry
       expect(@turn.placement_generator).to eq("g")
 
       # @turn.placement_generator(@submarine, ["B1", "B2"])

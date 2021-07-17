@@ -36,11 +36,18 @@ class Turn
   end
 
   def placement_generator
+    p = false
+    e = []
+    @ships.each do |ship|
+      while p == false
+        e = @board.cells.keys.sample(ship.length)
+        p = @board.valid_placement?(@cruiser, e)
+        p
+      end
+      @board.place(ship, e)
 
-    @ships.each do |board|
+    end
 
-
-end
   end
 end
 # turn = Turn.new
