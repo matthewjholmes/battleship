@@ -40,7 +40,7 @@ class Cell
     #   "H"
     if !empty? && @ship.sunk? == true
       @render = "X"
-    elsif argument == true
+    elsif argument == true && !empty?
       "S"
     else
       @render

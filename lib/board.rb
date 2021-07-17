@@ -60,6 +60,27 @@ class Board
   def duplicates?
     @taken_cells.flatten.length != @taken_cells.flatten.uniq.length
   end
+
+  def render(render = false)
+    y_axis = ("A".."D").to_a
+    arr = []
+    sentence = @cells.map do |cell|
+      cell[1].render(true)
+    end
+    lines = sentence.join.scan(/.{4}/)
+    lines.unshift(" 1234")
+    lines_spaces = lines.each do |line|
+      line.each_char do |line|
+        line.insert(-1, " ")
+      end
+    end 
+    require "pry"; binding.pry
+    board = lines.each do |line|
+       line.concat("\n")
+
+    end
+    board.zip(y_axis).join
+  end
 end
 
 # nothing changed
