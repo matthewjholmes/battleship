@@ -38,16 +38,17 @@ class Board
       element[0]
     end
     place_nums = place_split.map do |element|
-      element[1]
+      element[1].to_i
     end
     ords = place_lets.map do |letter|
       letter.ord
     end
-    groups = []
-    @cells.keys.each_cons(ship.length) do |group|
-      groups << group
-    end
-    groups.any?(placements) || place_nums.all?(place_nums[0]) && consecutive_check = ords.each_cons(2).all? {|a, b| b == a + 1 }
+    # groups = []
+    # @cells.keys.each_cons(ship.length) do |group|
+    #   groups << group
+    # end
+    # groups.any?(placements)
+    (ords.all?(ords[0]) && place_nums.each_cons(2).all? {|a, b| b == a + 1 }) || (place_nums.all?(place_nums[0]) && ords.each_cons(2).all? {|a, b| b == a + 1 })
   end
 
   def place(ship, placements)
@@ -63,21 +64,13 @@ class Board
 
   def render(render = false)
     y_axis = ("A".."D").to_a
-    arr = []
     sentence = @cells.map do |cell|
-      cell[1].render(true)
+      " " + cell[1].render(render)
     end
-    lines = sentence.join.scan(/.{4}/)
-    lines.unshift(" 1234")
-    lines_spaces = lines.each do |line|
-      line.each_char do |line|
-        line.insert(-1, " ")
-      end
-    end 
-    require "pry"; binding.pry
+    lines = sentence.join.scan(/.{8}/)
+    lines.unshift("  1 2 3 4")
     board = lines.each do |line|
-       line.concat("\n")
-
+       line.concat(" \n")
     end
     board.zip(y_axis).join
   end
