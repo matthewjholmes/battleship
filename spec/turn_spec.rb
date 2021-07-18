@@ -43,5 +43,14 @@ RSpec.describe Turn do
       expect(@board.duplicates?).to eq(false)
       # expect(@board.render(true)).to eq("  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n")
     end
+
+    xit 'returns player placement message' do
+      expect(@turn.player_placement_message).to eq("I have laid out my ships on the grid. \nYou now need to lay out your two ships. \nThe Cruiser is three units long and the Submarine is two units long.")
+    end
+
+    it 'accepts user input' do
+      @turn.user_placement_input
+
+    end
   end
 end

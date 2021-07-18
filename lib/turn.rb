@@ -14,7 +14,7 @@ class Turn
 
   def welcome
     print "Welcome to BATTLESHIP \nEnter p to play. Enter q to quit. \n>"
-    game_menu(gets.chomp)
+    game_menu(gets.chomp.downcase)
   end
 
   def quit
@@ -44,6 +44,30 @@ class Turn
       @board.place(ship, e)
     end
     @board.taken_cells
+  end
+
+  def player_placement_message
+    puts "I have laid out my ships on the grid. \nYou now need to lay out your two ships. \nThe Cruiser is three units long and the Submarine is two units long."
+  end
+
+  def user_placement_input
+    print "Enter Cruiser Coordinates > "
+
+    cruiser_coordinates   = "a1 a2 A3"
+    submarine_coordinates = "b2 C2"
+    cruiser_coordinates.upcase.split(' ')
+
+    until @board.valid_placement?(@ships[0], cruiser_coordinates)
+      require "pry"; binding.pry
+      puts @board.render(true)
+      puts "Invalid coordinates. Try again!"
+    end
+    require "pry"; binding.pry
+      puts "Enter Submarine Coordinates > "
+      submarine_coordinates.upcase.split(' ')
+      @board.valid_placement?(@submarine, submarine_coordinates)
+
+    # user_placement
   end
 end
 # turn = Turn.new
