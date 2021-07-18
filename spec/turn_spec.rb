@@ -38,8 +38,9 @@ RSpec.describe Turn do
     end
 
     it 'places ships' do
-      expect(@turn.placement_cruiser).to eq(3)
-      expect(@turn.placement_submarine).to eq(2)
+      expect(@turn.placement_generator).to eq(3)
+      # expect(@turn.placement_cruiser).to eq(3)
+      # expect(@turn.placement_submarine).to eq(2)
     end
   end
 end
