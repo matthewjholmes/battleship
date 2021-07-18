@@ -31,6 +31,7 @@ class Board
   def valid_placement?(ship, placements)
     return false unless ship.length == placements.length
     return false unless !duplicates?
+    # @taken_cells.include?(placements)
     place_split = placements.map do |placement|
       placement.split("")
     end
@@ -47,14 +48,14 @@ class Board
   end
 
   def place(ship, placements)
-    @taken_cells << placements
     placements.each do |cell|
       @cells[cell].place_ship(ship)
+      @taken_cells << cell
     end
   end
 
   def duplicates?
-    @taken_cells.flatten.length != @taken_cells.flatten.uniq.length
+    @taken_cells.length != @taken_cells.uniq.length
   end
 
   def render(render = false)
@@ -70,9 +71,3 @@ class Board
     board.zip(y_axis).join
   end
 end
-
-# nothing changed
-# Random thoughts: an OR statement that evaluates all the same .ord number on one side, and consecutive numbers after .split("A"||"B"||etc.) on the other
-#Another idea: make an array of arrays of each row and column, and see if placement matches part of any item (possibly with each_cons). Block (any?) checks to see if coordinate match any of the arrays.
-# i = [['a','b','c','d'],['e','f','g','h']]
-# i.any? { |s| s.include?(['b','c'])}
