@@ -34,7 +34,7 @@ class Turn
   end
 
   def placement_generator
-    test = @ships.each do |ship|
+    @ships.each do |ship|
       p = false
       e = []
       while p == false
@@ -42,9 +42,7 @@ class Turn
         p = @board.valid_placement?(ship, e)
         p
       end
-
       @board.place(ship, e)
-        require "pry"; binding.pry
     end
   end
 

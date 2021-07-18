@@ -6,9 +6,9 @@ require 'pry'
 
 RSpec.describe Turn do
   before(:each) do
-    @turn = Turn.new
-    @board = Board.new
-    @cruiser = Ship.new("Cruiser", 3)
+    @turn      = Turn.new
+    @board     = Board.new
+    @cruiser   = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
   end
 
