@@ -40,35 +40,11 @@ class Turn
       while p == false
         e = @board.cells.keys.sample(ship.length)
         p = @board.valid_placement?(ship, e)
-        p
       end
       @board.place(ship, e)
     end
+    @board.taken_cells
   end
-
-  # def placement_cruiser
-  #     p = false
-  #     e = []
-  #     loop_test = while p == false
-  #       e = @board.cells.keys.sample(3)
-  #       p = @board.valid_placement?(@cruiser, e)
-  #       p
-  #     end
-  #     placement_test = @board.place(@cruiser, e)
-  #     require "pry"; binding.pry
-  # end
-  #
-  # def placement_submarine
-  #     p = false
-  #     e = []
-  #     loop_test = while p == false
-  #       e = @board.cells.keys.sample(3)
-  #       p = @board.valid_placement?(@submarine, e)
-  #       p
-  #     end
-  #     placement_test = @board.place(@submarine, e)
-  #     require "pry"; binding.pry
-  # end
 end
 # turn = Turn.new
 # turn.welcome
