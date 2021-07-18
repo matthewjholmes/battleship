@@ -3,7 +3,7 @@ class Board
               :taken_cells
 
   def initialize
-    @cells = cell_generator
+    @cells       = cell_generator
     @taken_cells = []
   end
 
@@ -25,13 +25,17 @@ class Board
   end
 
   def valid_coordinate?(cell)
-    @cells.has_key?(cell)
+    @cells.has_key?(cell) && !@taken_cells.include?(cell)
   end
 
   def valid_placement?(ship, placements)
     return false unless ship.length == placements.length
-    return false unless !duplicates?
-    # @taken_cells.include?(placements)
+    # return false unless !duplicates?
+    placements.find do |cell|
+      if valid_coordinate?(cell) == false
+        return
+      end
+    end
     place_split = placements.map do |placement|
       placement.split("")
     end
