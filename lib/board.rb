@@ -29,11 +29,11 @@ class Board
   end
 
   def valid_placement?(ship, placements)
-    return false unless ship.length == placements.length
+    return false unless ship.length == placements.count
     # return false unless !duplicates?
     placements.find do |cell|
       if valid_coordinate?(cell) == false
-        return
+        return false
       end
     end
     place_split = placements.map do |placement|

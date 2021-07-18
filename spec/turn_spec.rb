@@ -37,10 +37,11 @@ RSpec.describe Turn do
       expect(@turn.game_menu).to eq("exit")
     end
 
-    it 'places ships' do
-      expect(@turn.placement_generator).to eq(3)
-      # expect(@turn.placement_cruiser).to eq(3)
-      # expect(@turn.placement_submarine).to eq(2)
+    it 'computer places ships' do
+      #We feel like we need to differently but are unsure how to approach it.
+      expect(@turn.placement_generator.count).to eq(5)
+      expect(@board.duplicates?).to eq(false)
+      # expect(@board.render(true)).to eq("  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n")
     end
   end
 end
