@@ -1,13 +1,11 @@
 class Cell
-
   attr_reader :coordinate, :ship
 
   def initialize(coordinate)
     @coordinate = coordinate
-    @ship = nil
+    @ship       = nil
     @fired_upon = false
-    @render = "."
-    # @empty = true
+    @render     = "."
   end
 
   def empty?
@@ -32,7 +30,6 @@ class Cell
     end
   end
 
-  # Matt thinks the optional argument is related to displaying own vs. opponent board. Ozzie thinks it's for debugging.
   def render(argument = false)
     # if @ship.sunk? == true
     #   "X"

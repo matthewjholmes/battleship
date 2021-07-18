@@ -43,11 +43,6 @@ class Board
     ords = place_lets.map do |letter|
       letter.ord
     end
-    # groups = []
-    # @cells.keys.each_cons(ship.length) do |group|
-    #   groups << group
-    # end
-    # groups.any?(placements)
     (ords.all?(ords[0]) && place_nums.each_cons(2).all? {|a, b| b == a + 1 }) || (place_nums.all?(place_nums[0]) && ords.each_cons(2).all? {|a, b| b == a + 1 })
   end
 
