@@ -1,7 +1,6 @@
 require './lib/board'
 
 class Turn
-
   attr_reader :ships
 
   def initialize
@@ -25,7 +24,6 @@ class Turn
 
   def game_menu(input)
     if input == ("p" || "play")
-
     elsif input == ("q" || "quit")
       quit
     else
@@ -33,22 +31,44 @@ class Turn
       sleep 2
       welcome
     end
-
   end
 
-  def placement_generator
-    require "pry"; binding.pry
-    p = false
-    e = []
-    @ships.each do |ship|
-      while p == false
-        e = @board.cells.keys.sample(ship.length)
+  # def placement_generator
+  #   test = @ships.each do |ship|
+  #     p = false
+  #     e = []
+  #     loop_test = while p == false
+  #       e = @board.cells.keys.sample(ship.length)
+  #       p = @board.valid_placement?(ship, e)
+  #       p
+  #     end
+  #     placement_test = @board.place(ship, e)
+  #     require "pry"; binding.pry
+  #   end
+  # end
+
+  def placement_cruiser
+      p = false
+      e = []
+      loop_test = while p == false
+        e = @board.cells.keys.sample(3)
+        p = @board.valid_placement?(@cruiser, e)
         p
       end
-      @board.place(ship, e)
+      placement_test = @board.place(@cruiser, e)
+      require "pry"; binding.pry
+  end
 
-    end
-
+  def placement_submarine
+      p = false
+      e = []
+      loop_test = while p == false
+        e = @board.cells.keys.sample(3)
+        p = @board.valid_placement?(@submarine, e)
+        p
+      end
+      placement_test = @board.place(@submarine, e)
+      require "pry"; binding.pry
   end
 end
 # turn = Turn.new
