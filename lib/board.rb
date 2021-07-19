@@ -25,13 +25,15 @@ class Board
   end
 
   def valid_coordinate?(cell)
-    @cells.has_key?(cell) && !@taken_cells.include?(cell)
+    @cells.has_key?(cell) && !@cells[cell].fired_upon?
   end
 
   def valid_placement?(ship, placements)
     return false unless ship.length == placements.count
     placements.find do |cell|
-      return false unless valid_coordinate?(cell)
+      if valid_coordinate?(cell) == false
+        return false
+      end
     end
     place_split = placements.map do |placement|
       placement.split("")
@@ -61,7 +63,7 @@ class Board
       " " + cell[1].render(render)
     end
     lines = sentence.join.scan(/.{8}/)
-    lines.unshift("\n  1 2 3 4")
+    lines.unshift("  1 2 3 4")
     board = lines.each do |line|
        line.concat(" \n")
     end
