@@ -1,3 +1,5 @@
+require_relative 'cell'
+
 class Board
   attr_reader :cells,
               :taken_cells
@@ -15,11 +17,9 @@ class Board
 
     y_axis.each do |letter|
       x_axis.each do |number|
-        coordinates << "#{letter}#{number}"
-      end
-    end
-    coordinates.map do |coordinate|
+      coordinate = "#{letter}#{number}"
       cells[coordinate] = Cell.new(coordinate)
+      end
     end
     cells
   end
@@ -30,11 +30,8 @@ class Board
 
   def valid_placement?(ship, placements)
     return false unless ship.length == placements.count
-    # return false unless !duplicates?
     placements.find do |cell|
-      if valid_coordinate?(cell) == false
-        return false
-      end
+      return false unless valid_coordinate?(cell)
     end
     place_split = placements.map do |placement|
       placement.split("")
@@ -56,10 +53,6 @@ class Board
       @cells[cell].place_ship(ship)
       @taken_cells << cell
     end
-  end
-
-  def duplicates?
-    @taken_cells.length != @taken_cells.uniq.length
   end
 
   def render(render = false)
