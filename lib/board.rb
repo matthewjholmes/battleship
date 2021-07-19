@@ -68,7 +68,7 @@ class Board
       " " + cell[1].render(render)
     end
     lines = sentence.join.scan(/.{8}/)
-    lines.unshift("  1 2 3 4")
+    lines.unshift("\n  1 2 3 4")
     board = lines.each do |line|
        line.concat(" \n")
     end

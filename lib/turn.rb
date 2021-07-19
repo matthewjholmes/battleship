@@ -51,22 +51,25 @@ class Turn
   end
 
   def user_placement_input
+
     print "Enter Cruiser Coordinates > "
 
-    cruiser_coordinates   = "a1 a2 A3"
-    submarine_coordinates = "b2 C2"
-    cruiser_coordinates.upcase.split(' ')
-
+    raw_cruiser_coordinates   = "a1 a2 A3"
+    raw_submarine_coordinates = "b2 C2"
+    cruiser_coordinates = raw_cruiser_coordinates.upcase.split(' ')
     until @board.valid_placement?(@ships[0], cruiser_coordinates)
-      require "pry"; binding.pry
       puts @board.render(true)
       puts "Invalid coordinates. Try again!"
     end
-    require "pry"; binding.pry
-      puts "Enter Submarine Coordinates > "
-      submarine_coordinates.upcase.split(' ')
-      @board.valid_placement?(@submarine, submarine_coordinates)
-
+    puts @board.render(true)
+    puts "Enter Submarine Coordinates > "
+    submarine_coordinates = raw_submarine_coordinates.upcase.split(' ')
+    until @board.valid_placement?(@ships[1], submarine_coordinates)
+      puts @board.render(true)
+      puts "Invalid coordinates. Try again!"
+    end
+    puts "Game on"
+    pry
     # user_placement
   end
 end
