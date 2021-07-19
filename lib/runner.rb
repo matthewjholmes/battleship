@@ -59,23 +59,44 @@ require_relative 'ship'
       puts "Invalid coordinates. Try again!"
       cruiser_coordinates = gets.chomp.upcase.split(' ')
     end
+    @user_board.place(@cruiser, cruiser_coordinates)
     puts @user_board.render(true)
-
     print "Enter Submarine Coordinates >"
 
-    raw_submarine_coordinates = gets.chomp
-    submarine_coordinates = raw_submarine_coordinates.upcase.split(' ')
+    submarine_coordinates = gets.chomp.upcase.split(' ')
     until @user_board.valid_placement?(@user_ships[1], submarine_coordinates)
       puts @user_board.render(true)
       puts "Invalid coordinates. Try again!"
-
       puts "Enter Submarine Coordinates > "
-      raw_submarine_coordinates = gets.chomp
-      submarine_coordinates = raw_submarine_coordinates.upcase.split(' ')
-      puts "Invalid coordinates. Try again!"
+      submarine_coordinates = gets.chomp.upcase.split(' ')
     end
+    @user_board.place(@submarine, submarine_coordinates)
+    puts @user_board.render(true)
     puts "Game on"
-    require "pry"; binding.pry
-    # user_placement
+    take_turn
   end
+
+    def take_turn
+      require "pry"; binding.pry
+      puts "=============COMPUTER BOARD============="
+      puts @comp_board.render
+      puts "=============PLAYER BOARD============="
+      puts @user_board.render(true)
+      puts "Enter the coordinate for your shot! \n>"
+      fire_coordinate = gets.chomp.upcase
+      until @comp_board.valid_coordinate?(fire_coordinate)
+        puts "Invalid coordinate. Try again!"
+        fire_coordinate = gets.chomp.upcase
+      end
+      @comp_board.cells[fire_coordinate].fire_upon
+      puts "Your shot on #{fire_coordinate} was a #{cell_feedback(fire_coordinate)}."
+    end
+
+    def cell_feedback(cell)
+      if @comp_board.cells[cell].render == "H"
+        "hit"
+      else
+        "miss"
+      end
+    end
   puts welcome
