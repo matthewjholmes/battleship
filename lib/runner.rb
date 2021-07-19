@@ -83,7 +83,7 @@ require_relative 'ship'
     puts @comp_board.render
     puts "==============PLAYER BOARD=============="
     puts @user_board.render(true)
-    puts "Enter the coordinate for your shot! \n>"
+    print "Enter the coordinate for your shot! \n>"
     fire_coordinate = gets.chomp.upcase
     until @comp_board.valid_coordinate?(fire_coordinate)
       puts "Invalid coordinate. Try again!"
@@ -105,14 +105,11 @@ require_relative 'ship'
   end
 
   def comp_fire
-    fire = false
-    cell = nil
-    while fire == false
-      cell = @user_board.cells.keys.sample(1)
-      fire = @user_board.valid_coordinate?(cell)
+    free_cells = []
+    @user_board.cells.map do |key, value|
+      value.fired_upon? == false
+      free_cells << key
     end
-    require "pry"; binding.pry
-    cell
-
+    free_cells.shuffle.first
   end
   puts welcome
