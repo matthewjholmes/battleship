@@ -51,6 +51,8 @@ require_relative 'ship'
   end
 
   def user_placement_input
+    #line below added so we can make accurate shots during testing
+    puts @comp_board.render(true)
     puts @user_board.render(true)
     print "Enter Cruiser Coordinates > "
     cruiser_coordinates = gets.chomp.upcase.split(' ')
@@ -76,27 +78,41 @@ require_relative 'ship'
     take_turn
   end
 
-    def take_turn
-      require "pry"; binding.pry
-      puts "=============COMPUTER BOARD============="
-      puts @comp_board.render
-      puts "=============PLAYER BOARD============="
-      puts @user_board.render(true)
-      puts "Enter the coordinate for your shot! \n>"
+  def take_turn
+    puts "=============COMPUTER BOARD============="
+    puts @comp_board.render
+    puts "==============PLAYER BOARD=============="
+    puts @user_board.render(true)
+    puts "Enter the coordinate for your shot! \n>"
+    fire_coordinate = gets.chomp.upcase
+    until @comp_board.valid_coordinate?(fire_coordinate)
+      puts "Invalid coordinate. Try again!"
       fire_coordinate = gets.chomp.upcase
-      until @comp_board.valid_coordinate?(fire_coordinate)
-        puts "Invalid coordinate. Try again!"
-        fire_coordinate = gets.chomp.upcase
-      end
-      @comp_board.cells[fire_coordinate].fire_upon
-      puts "Your shot on #{fire_coordinate} was a #{cell_feedback(fire_coordinate)}."
     end
+    @comp_board.cells[fire_coordinate].fire_upon
+    comp_shot = comp_fire
+    @user_board.cells[comp_shot].fire_upon
+    puts "Your shot on #{fire_coordinate} was a #{cell_feedback(@comp_board, fire_coordinate)}."
+    puts "My shot on #{comp_shot} was a #{cell_feedback(@user_board, comp_shot)}."
+  end
 
-    def cell_feedback(cell)
-      if @comp_board.cells[cell].render == "H"
-        "hit"
-      else
-        "miss"
-      end
+  def cell_feedback(user, cell)
+    if user.cells[cell].render == "H"
+      "hit"
+    else
+      "miss"
     end
+  end
+
+  def comp_fire
+    fire = false
+    cell = nil
+    while fire == false
+      cell = @user_board.cells.keys.sample(1)
+      fire = @user_board.valid_coordinate?(cell)
+          require "pry"; binding.pry
+    end
+    cell
+
+  end
   puts welcome
