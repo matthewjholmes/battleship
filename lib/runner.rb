@@ -110,8 +110,8 @@ require_relative 'ship'
     while fire == false
       cell = @user_board.cells.keys.sample(1)
       fire = @user_board.valid_coordinate?(cell)
-          require "pry"; binding.pry
     end
+    require "pry"; binding.pry
     cell
 
   end
