@@ -1,3 +1,5 @@
+require_relative 'cell'
+
 class Board
   attr_reader :cells,
               :taken_cells
@@ -25,7 +27,7 @@ class Board
   end
 
   def valid_coordinate?(cell)
-    @cells.has_key?(cell)
+    @cells.has_key?(cell) && !@cells[cell].fired_upon?
   end
 
   def valid_placement?(ship, placements)

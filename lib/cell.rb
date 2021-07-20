@@ -6,8 +6,6 @@ class Cell
     @coordinate = coordinate
     @ship = nil
     @fired_upon = false
-    @render = "."
-    # @empty = true
   end
 
   def empty?
@@ -24,26 +22,22 @@ class Cell
 
   def fire_upon
     @fired_upon = true
-    if empty?
-      @render = "M"
-    else
+    if !empty?
       @ship.hit
-      @render = "H"
     end
   end
 
-  # Matt thinks the optional argument is related to displaying own vs. opponent board. Ozzie thinks it's for debugging.
-  def render(argument = false)
-    # if @ship.sunk? == true
-    #   "X"
-    # elsif @cell.place_ship == true && fired_upon? == true
-    #   "H"
+  def render(argument = ".")
     if !empty? && @ship.sunk? == true
-      @render = "X"
+      "X"
     elsif argument == true && !empty?
       "S"
+    elsif empty? && fired_upon?
+      "M"
+    elsif !empty? && fired_upon?
+      "H"
     else
-      @render
+      "."
     end
   end
 end
