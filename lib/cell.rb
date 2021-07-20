@@ -30,16 +30,14 @@ class Cell
 
 
   def render(argument = ".")
-
-
     if !empty? && @ship.sunk? == true
       "X"
-    elsif argument == true && !empty?
-      "S"
     elsif empty? && fired_upon?
       "M"
     elsif !empty? && fired_upon?
       "H"
+    elsif argument == true && !empty? #had to move this down since the ship was showing above a shot. Was above "m"
+      "S"
     else
       "."
     end
