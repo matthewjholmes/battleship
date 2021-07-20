@@ -116,6 +116,7 @@ require_relative 'ship'
     free_cells.shuffle.first
   end
 
+
   def game_loop
     if @comp_ships.all?(&:sunk?) || @user_ships.all?(&:sunk?)
       end_game
@@ -132,4 +133,5 @@ require_relative 'ship'
       puts "I win, you suck"
     end
   end
+
   puts welcome

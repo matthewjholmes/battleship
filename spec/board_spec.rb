@@ -4,12 +4,12 @@ require './lib/cell'
 
 RSpec.describe Board do
   before(:each) do
-    @board = Board.new
-    @cruiser = Ship.new("Cruiser", 3)
+    @board     = Board.new
+    @cruiser   = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
-    @cell_1 = @board.cells["A1"]# => #<Cell:0x00007fcb0e1f66a8...>
-    @cell_2 = @board.cells["A2"]# => #<Cell:0x00007fcb0e1f6630...>
-    @cell_3 = @board.cells["A3"]# => #<Cell:0x00007fcb0e1f65b8...>
+    @cell_1    = @board.cells["A1"]
+    @cell_2    = @board.cells["A2"]
+    @cell_3    = @board.cells["A3"]
   end
 
   it 'returns call classes' do
@@ -61,14 +61,14 @@ RSpec.describe Board do
 
   it 'ships do not overlap' do
     @board.place(@cruiser, ["A1", "A2", "A3"])
-    @board.place(@submarine, ["A1", "B1"])
-    expect(@board.duplicates?).to eq(true)
+    # @board.place(@submarine, ["A1", "B1"])
+    # expect(@board.duplicates?).to eq(true)
     expect(@board.valid_placement?(@submarine, ["A1", "B1"])).to eq(false)
   end
 
   it 'renders the board' do
     @board.place(@cruiser, ["A1", "A2", "A3"])
-    
+
     expect(@board.render).to eq("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n")
     expect(@board.render(true)).to eq("  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n")
   end

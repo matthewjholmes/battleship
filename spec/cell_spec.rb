@@ -3,8 +3,8 @@ require './lib/cell'
 
 RSpec.describe Cell do
   before(:each) do
-    @cell = Cell.new("B4")
-    @cell_2 = Cell.new("C3")
+    @cell    = Cell.new("B4")
+    @cell_2  = Cell.new("C3")
     @cruiser = Ship.new("Cruiser", 3)
   end
 
