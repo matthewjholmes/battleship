@@ -51,8 +51,6 @@ require_relative 'ship'
   end
 
   def user_placement_input
-    #line below added so we can make accurate shots during testing
-    puts @comp_board.render(true)
     puts @user_board.render(true)
     print "Enter Cruiser Coordinates > "
     cruiser_coordinates = gets.chomp.upcase.split(' ')
@@ -94,13 +92,18 @@ require_relative 'ship'
     @user_board.cells[comp_shot].fire_upon
     puts "Your shot on #{fire_coordinate} was a #{cell_feedback(@comp_board, fire_coordinate)}."
     puts "My shot on #{comp_shot} was a #{cell_feedback(@user_board, comp_shot)}."
+    game_loop
   end
 
   def cell_feedback(user, cell)
-    if user.cells[cell].render == "H"
+    if user.cells[cell].render ==  "X"
+      "sink"
+    elsif user.cells[cell].render ==  "H"
       "hit"
-    else
+    elsif user.cells[cell].render ==  "M"
       "miss"
+    else
+      "you fucked up your code"
     end
   end
 
@@ -112,4 +115,23 @@ require_relative 'ship'
     end
     free_cells.shuffle.first
   end
+
+
+  def game_loop
+    if @comp_ships.all?(&:sunk?) || @user_ships.all?(&:sunk?)
+      end_game
+      welcome
+    else
+      take_turn
+    end
+  end
+
+  def end_game
+    if @comp_ships.all?(&:sunk?)
+      puts "You win"
+    else
+      puts "I win, you suck"
+    end
+  end
+
   puts welcome
