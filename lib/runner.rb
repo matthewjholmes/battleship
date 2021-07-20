@@ -77,7 +77,7 @@ require_relative 'ship'
   end
 
   def take_turn
-    puts "=============COMPUTER BOARD============="
+    puts "\n=============COMPUTER BOARD============="
     puts @comp_board.render
     puts "==============PLAYER BOARD=============="
     puts @user_board.render(true)
@@ -90,8 +90,11 @@ require_relative 'ship'
     @comp_board.cells[fire_coordinate].fire_upon
     comp_shot = comp_fire
     @user_board.cells[comp_shot].fire_upon
+    sleep 1
     puts "Your shot on #{fire_coordinate} was a #{cell_feedback(@comp_board, fire_coordinate)}."
-    puts "My shot on #{comp_shot} was a #{cell_feedback(@user_board, comp_shot)}."
+    sleep 1
+    puts "My shot on #{comp_shot} was a #{cell_feedback(@user_board, comp_shot)}.\n"
+    sleep 1
     game_loop
   end
 
@@ -115,7 +118,6 @@ require_relative 'ship'
     end
     free_cells.shuffle.first
   end
-
 
   def game_loop
     if @comp_ships.all?(&:sunk?) || @user_ships.all?(&:sunk?)
