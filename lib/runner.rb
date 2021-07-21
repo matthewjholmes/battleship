@@ -1,6 +1,8 @@
 require_relative 'board'
 require_relative 'ship'
+require_relative 'messages'
 
+    @messages       = Messages.new
     @comp_board     = Board.new
     @user_board     = Board.new
     @comp_cruiser   = Ship.new("Cruiser", 3)
@@ -10,13 +12,14 @@ require_relative 'ship'
     @comp_ships     = [@comp_cruiser, @comp_submarine]
     @user_ships     = [@cruiser, @submarine]
 
-  def welcome
-    print "Welcome to BATTLESHIP \nEnter p to play. Enter q to quit. \n>"
+  def game_beginning
+    puts @messages.image
+    print @messages.welcome_message
     game_menu(gets.strip.downcase)
   end
 
   def quit
-    puts "Thanks for playing, sucka!"
+    puts @messages.quit_message
     exit
   end
 
@@ -27,9 +30,9 @@ require_relative 'ship'
     elsif input == ("q" || "quit")
       quit
     else
-      puts "Write better, fool!"
+      puts @messages.write_better_message
       sleep 2
-      welcome
+      game_beginning
     end
   end
 
@@ -46,8 +49,7 @@ require_relative 'ship'
   end
 
   def player_placement_message
-    puts "I have laid out my ships on the grid. \nYou now need to lay out your two ships. \nThe Cruiser is three units long and the Submarine is two units long."
-    puts @comp_board.render(true) #remove before submitting
+    puts @messages.player_placement_message
     user_placement
   end
 
@@ -69,41 +71,16 @@ require_relative 'ship'
   def user_fire
     fire_coordinate = gets.strip.upcase
     if !@comp_board.cells.has_key?(fire_coordinate)
-      puts "\nInvalid coordinate. Try again!"
+      puts @messages.invalid_coordinate_message
       take_turn
     elsif @comp_board.cells[fire_coordinate].fired_upon?
-      puts "\nYou're repeating yourself. Got memory loss?"
+      puts @messages.repeat_coord_message
       take_turn
     else
       fire_coordinate
     end
     fire_coordinate
   end
-
-  # def take_turn
-  #   puts "\n=============COMPUTER BOARD=============\n" + @comp_board.render
-  #   puts "==============PLAYER BOARD==============\n" + @user_board.render(true)
-  #   print "Enter the coordinate for your shot! \n>"
-  #   fire_coordinate = user_fire
-  #   @comp_board.cells[fire_coordinate].fire_upon
-  #   comp_shot = comp_fire
-  #   @user_board.cells[comp_shot].fire_upon
-  #   sleep 1
-  #   cell_feedback(@user_board, comp_shot)
-  #   sleep 1
-  #   cell_feedback(@comp_board, fire_coordinate)
-  # end
-  #
-  # def cell_feedback(user, cell)
-  #   if user.cells[cell].render ==  "X"
-  #     hash[user]
-  #     "You sunk my #{user.cells[cell].ship.name}."
-  #   elsif user.cells[cell].render ==  "H"
-  #     "hit" "Your shot on #{cell} was a hit."
-  #   else user.cells[cell].render ==  "M"
-  #     "Your shot on #{cell} was a miss."
-  #   end
-  # end
 
   def take_turn
     puts "\n=============COMPUTER BOARD=============\n" + @comp_board.render
@@ -113,30 +90,20 @@ require_relative 'ship'
     @comp_board.cells[fire_coordinate].fire_upon
     comp_shot = comp_fire
     @user_board.cells[comp_shot].fire_upon
-    sleep 1
-    puts "Your shot on #{fire_coordinate} was a #{cell_feedback(@comp_board, fire_coordinate)}."
-    if cell_feedback(@comp_board, fire_coordinate) == "sink"
+    sleep 0.5
+    puts "Your shot on #{fire_coordinate} was a #{@messages.cell_feedback(@comp_board, fire_coordinate)}."
+    if @messages.cell_feedback(@comp_board, fire_coordinate) == "sink"
+      sleep 0.25
       puts "You sunk my #{@comp_board.cells[fire_coordinate].ship.name}."
+      sleep 0.25
     end
-    sleep 1
-    puts "My shot on #{comp_shot} was a #{cell_feedback(@user_board, comp_shot)}.\n"
-    if cell_feedback(@user_board, comp_shot) == "sink"
+    sleep 0.5
+    puts "My shot on #{comp_shot} was a #{@messages.cell_feedback(@user_board, comp_shot)}.\n"
+    if @messages.cell_feedback(@user_board, comp_shot) == "sink"
       puts "I sunk your #{@user_board.cells[comp_shot].ship.name}"
     end
-    sleep 1
+    sleep 0.5
     game_loop
-  end
-
-  def cell_feedback(user, cell)
-    if user.cells[cell].render ==  "X"
-      "sink"
-    elsif user.cells[cell].render ==  "H"
-      "hit"
-    elsif user.cells[cell].render ==  "M"
-      "miss"
-    else
-      "you fucked up your code"
-    end
   end
 
   def comp_fire
@@ -151,7 +118,7 @@ require_relative 'ship'
   def game_loop
     if @comp_ships.all?(&:sunk?) || @user_ships.all?(&:sunk?)
       end_game
-      welcome
+      game_beginning
     else
       take_turn
     end
@@ -160,11 +127,11 @@ require_relative 'ship'
   def end_game
     if @comp_ships.all?(&:sunk?)
       puts "You win"
-      welcome
+      game_beginning
     else
       puts "I win, you suck"
-      welcome
+      game_beginning
     end
   end
 
-  puts welcome
+game_beginning

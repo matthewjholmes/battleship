@@ -70,4 +70,8 @@ RSpec.describe Board do
     expect(@board.render).to eq("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n")
     expect(@board.render(true)).to eq("  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n")
   end
+
+  xit 'tests difficulty' do
+    @board.difficulty_setting
+  end
 end

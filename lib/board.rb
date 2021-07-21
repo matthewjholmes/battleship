@@ -4,7 +4,7 @@ class Board
   attr_reader :cells
 
   def initialize
-    @cells       = cell_generator
+    @cells = cell_generator
   end
 
   def cell_generator
