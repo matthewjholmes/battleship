@@ -1,12 +1,10 @@
 require_relative 'cell'
 
 class Board
-  attr_reader :cells,
-              :taken_cells
+  attr_reader :cells
 
   def initialize
     @cells       = cell_generator
-    @taken_cells = []
   end
 
   def cell_generator
@@ -25,7 +23,27 @@ class Board
   end
 
   def valid_coordinate?(cell)
-    @cells.has_key?(cell) && !@cells[cell].fired_upon?
+    @cells.has_key?(cell) && !@cells[cell].fired_upon? && !@cells[cell].ship
+  end
+
+  def row_or_column_validation(placements)
+    place_split = placements.map do |placement|
+      placement.split("")
+    end
+    place_lets = place_split.map do |letter|
+      letter[0]
+    end
+    place_nums = place_split.map do |number|
+      number[1].to_i
+    end
+    ords = place_lets.map do |letter|
+      letter.ord
+    end
+    all_same_letter = ords.all?(ords[0])
+    all_same_number = place_nums.all?(place_nums[0])
+    numbers_increment_by_one = place_nums.each_cons(2).all? {|a, b| b == a + 1 }
+    letters_increment_by_one = ords.each_cons(2).all? {|a, b| b == a + 1 }
+    (all_same_letter && numbers_increment_by_one) || (all_same_number && letters_increment_by_one)
   end
 
   def valid_placement?(ship, placements)
@@ -35,25 +53,12 @@ class Board
         return false
       end
     end
-    place_split = placements.map do |placement|
-      placement.split("")
-    end
-    place_lets = place_split.map do |element|
-      element[0]
-    end
-    place_nums = place_split.map do |element|
-      element[1].to_i
-    end
-    ords = place_lets.map do |letter|
-      letter.ord
-    end
-    (ords.all?(ords[0]) && place_nums.each_cons(2).all? {|a, b| b == a + 1 }) || (place_nums.all?(place_nums[0]) && ords.each_cons(2).all? {|a, b| b == a + 1 })
+    row_or_column_validation(placements)
   end
 
   def place(ship, placements)
     placements.each do |cell|
       @cells[cell].place_ship(ship)
-      @taken_cells << cell
     end
   end
 

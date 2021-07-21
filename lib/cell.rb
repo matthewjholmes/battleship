@@ -36,7 +36,7 @@ class Cell
       "M"
     elsif !empty? && fired_upon?
       "H"
-    elsif argument == true && !empty? #had to move this down since the ship was showing above a shot. Was above "m"
+    elsif argument == true && !empty? 
       "S"
     else
       "."
