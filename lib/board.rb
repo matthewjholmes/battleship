@@ -1,25 +1,57 @@
 require_relative 'cell'
 
 class Board
-  attr_reader :cells
+  attr_reader :cells, :y_axis, :x_axis
 
   def initialize
-    @cells = cell_generator
+    @cells = {}
+    @y_axis = ("A".."D").to_a
+    @x_axis = ("1".."4").to_a
+  end
+
+  # def difficulty_setting(diff)
+  #   easy_y_axis      = ("A".."D").to_a
+  #   easy_x_axis      = ("1".."4").to_a
+  #   medium_y_axis    = ("A".."F").to_a
+  #   medium_x_axis    = ("1".."6").to_a
+  #   hard_y_axis      = ("A".."H").to_a
+  #   hard_x_axis      = ("1".."8").to_a
+  #   x_arry = [easy_x_axis, medium_x_axis, hard_x_axis]
+  #   y_arry = [easy_y_axis, medium_y_axis, hard_y_axis]
+  #   if user_difficulty_input == "h"
+  #     cell_generator(hard_y_axis, hard_x_axis)
+  #   elsif user_difficulty_input == "m"
+  #     cell_generator(medium_y_axis, medium_x_axis)
+  #   else user_difficulty_input == "e"
+  #     cell_generator(easy_y_axis, easy_x_axis)
+  #   end
+  #
+  # end
+  def medium
+    @y_axis    = ("A".."F").to_a
+    @x_axis    = ("1".."6").to_a
+    cell_generator
+  end
+
+  def hard
+    @y_axis      = ("A".."H").to_a
+    @x_axis      = ("1".."8").to_a
+    cell_generator
   end
 
   def cell_generator
-    y_axis      = ("A".."D").to_a
-    x_axis      = ("1".."4").to_a
+    # y_axis      = ("A".."D").to_a
+    # x_axis      = ("1".."4").to_a
     coordinates = []
-    cells       = {}
+    # cells       = {}
 
-    y_axis.each do |letter|
-      x_axis.each do |number|
+    @y_axis.each do |letter|
+      @x_axis.each do |number|
       coordinate = "#{letter}#{number}"
-      cells[coordinate] = Cell.new(coordinate)
+      @cells[coordinate] = Cell.new(coordinate)
       end
     end
-    cells
+    @cells
   end
 
   def valid_coordinate?(cell)
@@ -63,15 +95,36 @@ class Board
   end
 
   def render(render = false)
-    y_axis = ("A".."D").to_a
-    sentence = @cells.map do |cell|
-      " " + cell[1].render(render)
+    if y_axis.length == 8
+      sentence = @cells.map do |cell|
+        " " + cell[1].render(render)
+      end
+      lines = sentence.join.scan(/.{16}/)
+      lines.unshift("  1 2 3 4 5 6 7 8")
+      board = lines.each do |line|
+        line.concat(" \n")
+      end
+      board.zip(y_axis).join
+    elsif y_axis.length == 6
+      sentence = @cells.map do |cell|
+        " " + cell[1].render(render)
+      end
+      lines = sentence.join.scan(/.{12}/)
+      lines.unshift("  1 2 3 4 5 6")
+      board = lines.each do |line|
+        line.concat(" \n")
+      end
+      board.zip(y_axis).join
+    else
+      sentence = @cells.map do |cell|
+        " " + cell[1].render(render)
+      end
+      lines = sentence.join.scan(/.{8}/)
+      lines.unshift("  1 2 3 4")
+      board = lines.each do |line|
+        line.concat(" \n")
+      end
+      board.zip(y_axis).join
     end
-    lines = sentence.join.scan(/.{8}/)
-    lines.unshift("  1 2 3 4")
-    board = lines.each do |line|
-       line.concat(" \n")
-    end
-    board.zip(y_axis).join
   end
 end

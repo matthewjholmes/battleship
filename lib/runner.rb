@@ -3,14 +3,15 @@ require_relative 'ship'
 require_relative 'messages'
 
     @messages       = Messages.new
-    @comp_board     = Board.new
-    @user_board     = Board.new
+    # @comp_board     = Board.new
+    # @user_board     = Board.new
     @comp_cruiser   = Ship.new("Cruiser", 3)
     @cruiser        = Ship.new("Cruiser", 3)
     @comp_submarine = Ship.new("Submarine", 2)
     @submarine      = Ship.new("Submarine", 2)
     @comp_ships     = [@comp_cruiser, @comp_submarine]
     @user_ships     = [@cruiser, @submarine]
+    @difficulty     = "e"
 
   def game_beginning
     puts @messages.image
@@ -25,6 +26,7 @@ require_relative 'messages'
 
   def game_menu(input)
     if input == ("p" || "play")
+      user_input
       placement_generator
       player_placement_message
     elsif input == ("q" || "quit")
@@ -33,6 +35,45 @@ require_relative 'messages'
       puts @messages.write_better_message
       sleep 2
       game_beginning
+    end
+
+  end
+
+  # def difficulty_setting
+  #   puts @messages.difficulty_selection
+  #   user_difficulty_input = gets.chomp.downcase
+  #   @user_board.difficulty_setting(user_difficulty_input)
+  #   @comp_board.difficulty_setting(user_difficulty_input)
+  # end
+
+  def user_input
+    puts @messages.difficulty_selection
+    difficulty_setting(gets.chomp.downcase)
+  end
+
+  def difficulty_setting(diff)
+    easy_y_axis      = ("A".."D").to_a
+    easy_x_axis      = ("1".."4").to_a
+    medium_y_axis    = ("A".."F").to_a
+    medium_x_axis    = ("1".."6").to_a
+    hard_y_axis      = ("A".."H").to_a
+    hard_x_axis      = ("1".."8").to_a
+    @difficulty = diff
+    if diff == "h"
+      @user_board = Board.new
+        @user_board.hard
+      @comp_board = Board.new
+        @comp_board.hard
+    elsif diff == "m"
+      @user_board = Board.new
+        @user_board.medium
+      @comp_board = Board.new
+        @comp_board.medium
+    else
+      @user_board = Board.new
+        @user_board.cell_generator
+      @comp_board = Board.new
+        @comp_board.cell_generator
     end
   end
 
