@@ -12,11 +12,11 @@ require_relative 'ship'
 
   def welcome
     print "Welcome to BATTLESHIP \nEnter p to play. Enter q to quit. \n>"
-    game_menu(gets.chomp.downcase)
+    game_menu(gets.strip.downcase)
   end
 
   def quit
-    puts "Thanks for playing, sucka"
+    puts "Thanks for playing, sucka!"
     exit
   end
 
@@ -35,57 +35,44 @@ require_relative 'ship'
 
   def placement_generator
     @comp_ships.each do |ship|
-      p = false
-      e = []
-      while p == false
-        e = @comp_board.cells.keys.sample(ship.length)
-        p = @comp_board.valid_placement?(ship, e) && e.all? do |cell|
-          @comp_board.cells[cell].empty?
-        end
+      valid  = false
+      coords = []
+      while valid == false
+        coords = @comp_board.cells.keys.sample(ship.length)
+        valid  = @comp_board.valid_placement?(ship, coords)
       end
-      @comp_board.place(ship, e)
+      @comp_board.place(ship, coords)
     end
   end
 
   def player_placement_message
     puts "I have laid out my ships on the grid. \nYou now need to lay out your two ships. \nThe Cruiser is three units long and the Submarine is two units long."
-    puts @comp_board.render(true)
-    user_placement_input
+    puts @comp_board.render(true) #remove before submitting
+    user_placement
   end
 
-  def user_placement_input
-    puts @user_board.render(true)
-    print "Enter Cruiser Coordinates > "
-    cruiser_coordinates = gets.chomp.upcase.split(' ')
-    until @user_board.valid_placement?(@user_ships[0], cruiser_coordinates) && cruiser_coordinates.all? { |cell| @user_board.cells[cell].empty? }
+  def user_placement
+    @user_ships.each do |ship|
       puts @user_board.render(true)
-      puts "Invalid coordinates. Try again!"
-      cruiser_coordinates = gets.chomp.upcase.split(' ')
+      print "Enter #{ship.length} coordinates to place your #{ship.name} > "
+      input = gets.chomp.upcase.split(' ')
+      until @user_board.valid_placement?(ship, input)
+        print "Invalid, enter #{ship.length} coordinates > "
+        input = gets.chomp.upcase.split(' ')
+      end
+      @user_board.place(ship, input)
     end
-    @user_board.place(@cruiser, cruiser_coordinates)
-    puts @user_board.render(true)
-    print "Enter Submarine Coordinates >"
-
-    submarine_coordinates = gets.chomp.upcase.split(' ')
-    until @user_board.valid_placement?(@user_ships[1], submarine_coordinates) && submarine_coordinates.all? { |cell| @user_board.cells[cell].empty? }
-      puts @user_board.render(true)
-      puts "Invalid coordinates. Try again!"
-      puts "Enter Submarine Coordinates > "
-      submarine_coordinates = gets.chomp.upcase.split(' ')
-    end
-    @user_board.place(@submarine, submarine_coordinates)
-    puts @user_board.render(true)
-    puts "Game on"
+    puts "\n\n********** Game on! ***********\n\n"
     take_turn
   end
 
   def user_fire
-    fire_coordinate = gets.chomp.upcase
+    fire_coordinate = gets.strip.upcase
     if !@comp_board.cells.has_key?(fire_coordinate)
-      puts "Invalid coordinate. Try again!"
+      puts "\nInvalid coordinate. Try again!"
       take_turn
     elsif @comp_board.cells[fire_coordinate].fired_upon?
-      puts "You're repeating yourself. Got memory loss?"
+      puts "\nYou're repeating yourself. Got memory loss?"
       take_turn
     else
       fire_coordinate
@@ -93,11 +80,34 @@ require_relative 'ship'
     fire_coordinate
   end
 
+  # def take_turn
+  #   puts "\n=============COMPUTER BOARD=============\n" + @comp_board.render
+  #   puts "==============PLAYER BOARD==============\n" + @user_board.render(true)
+  #   print "Enter the coordinate for your shot! \n>"
+  #   fire_coordinate = user_fire
+  #   @comp_board.cells[fire_coordinate].fire_upon
+  #   comp_shot = comp_fire
+  #   @user_board.cells[comp_shot].fire_upon
+  #   sleep 1
+  #   cell_feedback(@user_board, comp_shot)
+  #   sleep 1
+  #   cell_feedback(@comp_board, fire_coordinate)
+  # end
+  #
+  # def cell_feedback(user, cell)
+  #   if user.cells[cell].render ==  "X"
+  #     hash[user]
+  #     "You sunk my #{user.cells[cell].ship.name}."
+  #   elsif user.cells[cell].render ==  "H"
+  #     "hit" "Your shot on #{cell} was a hit."
+  #   else user.cells[cell].render ==  "M"
+  #     "Your shot on #{cell} was a miss."
+  #   end
+  # end
+
   def take_turn
-    puts "\n=============COMPUTER BOARD============="
-    puts @comp_board.render
-    puts "==============PLAYER BOARD=============="
-    puts @user_board.render(true)
+    puts "\n=============COMPUTER BOARD=============\n" + @comp_board.render
+    puts "==============PLAYER BOARD==============\n" + @user_board.render(true)
     print "Enter the coordinate for your shot! \n>"
     fire_coordinate = user_fire
     @comp_board.cells[fire_coordinate].fire_upon
@@ -107,12 +117,11 @@ require_relative 'ship'
     puts "Your shot on #{fire_coordinate} was a #{cell_feedback(@comp_board, fire_coordinate)}."
     if cell_feedback(@comp_board, fire_coordinate) == "sink"
       puts "You sunk my #{@comp_board.cells[fire_coordinate].ship.name}."
-
     end
     sleep 1
     puts "My shot on #{comp_shot} was a #{cell_feedback(@user_board, comp_shot)}.\n"
     if cell_feedback(@user_board, comp_shot) == "sink"
-      puts "I sunk your #{@user_voard.cells[comp_shot].ship.name}"
+      puts "I sunk your #{@user_board.cells[comp_shot].ship.name}"
     end
     sleep 1
     game_loop
@@ -151,8 +160,10 @@ require_relative 'ship'
   def end_game
     if @comp_ships.all?(&:sunk?)
       puts "You win"
+      welcome
     else
       puts "I win, you suck"
+      welcome
     end
   end
 
