@@ -4,7 +4,9 @@ require './lib/cell'
 
 RSpec.describe Board do
   before(:each) do
-    @board     = Board.new
+    @y_axis = ("A".."D").to_a
+    @x_axis = ("1".."4").to_a
+    @board     = Board.new(@y_axis, @x_axis)
     @cruiser   = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
     @cell_1    = @board.cells["A1"]

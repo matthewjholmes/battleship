@@ -112,4 +112,8 @@ NNNNNNNNNNNNNNNWWWWMWWWMWWWWWWWWWMMMMMWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWWWWWWWWW
       "you fucked up your code"
     end
   end
+
+  def difficulty_selection
+    "Enter E for Easy \nM for Medium \nor H for Hard \nTo select your board size."
+  end
 end
