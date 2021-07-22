@@ -6,12 +6,14 @@ RSpec.describe Board do
   before(:each) do
     @y_axis = ("A".."D").to_a
     @x_axis = ("1".."4").to_a
-    @board     = Board.new(@y_axis, @x_axis)
+    @board     = Board.new
+    @board.cell_generator
     @cruiser   = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
     @cell_1    = @board.cells["A1"]
     @cell_2    = @board.cells["A2"]
     @cell_3    = @board.cells["A3"]
+
   end
 
   it 'returns call classes' do
@@ -71,9 +73,5 @@ RSpec.describe Board do
 
     expect(@board.render).to eq("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n")
     expect(@board.render(true)).to eq("  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n")
-  end
-
-  xit 'tests difficulty' do
-    @board.difficulty_setting
   end
 end
